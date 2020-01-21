@@ -1,6 +1,7 @@
 import Immutable from "immutable";
 
 const Pizza = Immutable.Record({
+  id: "id-null", //You should always put a new ID
   pizzaType: "",
   pizzaToppings: {
     Mushrooms: false,

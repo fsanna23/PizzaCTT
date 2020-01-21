@@ -3,15 +3,17 @@ import { Container } from "flux/utils";
 import MainStore from "../data/MainStore";
 import OrderStore from "../data/OrderStore";
 import Actions from "../data/MainActions";
+import DraftStore from "../data/DraftStore";
 
 function getStores() {
-  return [MainStore, OrderStore];
+  return [MainStore, OrderStore, DraftStore];
 }
 
 function getState() {
   return {
     mainState: MainStore.getState(),
     order: OrderStore.getState(),
+    draft: DraftStore.getState(),
     onChangePizzaType: Actions.changePizzaType,
     onCreateNewOrder: Actions.createNewOrder,
     onCancelOrder: Actions.cancelOrder,

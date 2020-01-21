@@ -3,19 +3,17 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 function AppView(props) {
-  console.log(props.order);
-  console.log(props.mainState);
+  console.log(props.draft);
   let isOrderCreating = [];
-  if (
-    props.mainState.has("orderCreating") &&
-    props.mainState.get("orderCreating")
-  ) {
+  if (props.draft.get("id") !== "id-null") {
+    console.log("Yes yes yes");
     isOrderCreating.push(<PizzaTypeForm {...props} />);
     isOrderCreating.push(<Footer {...props} />);
+    if (props.draft.get("pizzaType") !== " ") {
+      isOrderCreating.push(<PizzaNumber {...props} />);
+    }
   }
-  if (props.order.has("pizzaType") && props.order.get("pizzaType") !== " ") {
-    isOrderCreating.push(<PizzaNumber {...props} />);
-  }
+
   return (
     <div className="container mt-3">
       <NavBar {...props} />
@@ -89,7 +87,7 @@ function PizzaTypeForm(props) {
     "No tomato sauce, no cheese"
   ];
   let typeSelected =
-    props.order.has("pizzaType") && props.order.get("pizzaType") !== " " ? (
+    props.draft.get("pizzaType") !== " " ? (
       <PizzaToppingForm {...props} />
     ) : (
       " "
@@ -199,7 +197,7 @@ function PizzaNumber(props) {
 
 function Footer(props) {
   let typeSelected =
-    props.order.has("pizzaType") && props.order.get("pizzaType") !== " " ? (
+    props.draft.get("pizzaType") !== " " ? (
       <button className="btn btn-primary float-right ml-2">Add order</button>
     ) : (
       " "
