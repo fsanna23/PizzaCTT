@@ -15,9 +15,10 @@ class MainStore extends ReduceStore {
   reduce(state, action) {
     switch (action.type) {
       case ActionTypes.CREATE_NEW_ORDER:
-        console.log("Creating order");
         return state.set("orderCreating", true);
       case ActionTypes.CANCEL_ORDER:
+        return state.set("orderCreating", false);
+      case ActionTypes.ADD_ORDER_TO_BASKET:
         return state.set("orderCreating", false);
       default:
         return state;

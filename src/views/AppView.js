@@ -4,9 +4,9 @@ import Button from "react-bootstrap/Button";
 
 function AppView(props) {
   console.log(props.draft);
+  console.log(props.order);
   let isOrderCreating = [];
   if (props.draft.get("id") !== "id-null") {
-    console.log("Yes yes yes");
     isOrderCreating.push(<PizzaTypeForm {...props} />);
     isOrderCreating.push(<Footer {...props} />);
     if (props.draft.get("pizzaType") !== " ") {
@@ -26,10 +26,12 @@ function AppView(props) {
 }
 
 function NavBar(props) {
-  /**
-   * TODO: number of items
-   * Add number of items that are actually in the basket
-   */
+  let basketSize = "";
+  if (props.order.size === 0) {
+    basketSize = "Basket (Empty)";
+  } else {
+    basketSize = "Basket (" + props.order.size + " items)";
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <a className="navbar-brand" href=".">
@@ -70,7 +72,7 @@ function NavBar(props) {
         </ul>
         <form className="form-inline my-2 my-lg-0">
           <button className="btn btn-outline-dark my-2 my-sm-0" type="submit">
-            Basket
+            {basketSize}
           </button>
         </form>
       </div>
@@ -198,7 +200,12 @@ function PizzaNumber(props) {
 function Footer(props) {
   let typeSelected =
     props.draft.get("pizzaType") !== " " ? (
-      <button className="btn btn-primary float-right ml-2">Add order</button>
+      <button
+        className="btn btn-primary float-right ml-2"
+        onClick={() => props.onAddOrderToBasket(props.draft)}
+      >
+        Add order
+      </button>
     ) : (
       " "
     );
@@ -229,7 +236,7 @@ function MyModal(props) {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Your basket</Modal.Title>
         </Modal.Header>
         <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
         <Modal.Footer>

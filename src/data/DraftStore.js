@@ -46,6 +46,8 @@ class DraftStore extends ReduceStore {
         return state.set("number", action.number);
       case ActionTypes.CANCEL_ORDER:
         return state.clear();
+      case ActionTypes.ADD_ORDER_TO_BASKET:
+        return state.clear();
       default:
         return state;
     }

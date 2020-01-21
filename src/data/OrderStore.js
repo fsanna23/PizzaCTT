@@ -2,8 +2,6 @@ import Immutable from "immutable";
 import { ReduceStore } from "flux/utils";
 import Dispatcher from "./Dispatcher";
 import ActionTypes from "./ActionTypes";
-import Counter from "./Counter";
-import Pizza from "./Pizza";
 
 class OrderStore extends ReduceStore {
   constructor() {
@@ -11,13 +9,14 @@ class OrderStore extends ReduceStore {
   }
 
   getInitialState() {
-    return Immutable.OrderedMap();
+    return Immutable.List();
   }
 
   reduce(state, action) {
     switch (action.type) {
-      case ActionTypes.CREATE_NEW_ORDER:
-        return state;
+      case ActionTypes.ADD_ORDER_TO_BASKET:
+        console.log("Adding to basket");
+        return state.push(action.order);
       default:
         return state;
     }

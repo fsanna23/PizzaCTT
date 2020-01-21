@@ -29,6 +29,12 @@ const Actions = {
       type: ActionTypes.CHANGE_NUMBER,
       number
     });
+  },
+  addOrderToBasket(order) {
+    Dispatcher.dispatch({
+      type: ActionTypes.ADD_ORDER_TO_BASKET,
+      order
+    });
   }
 };
 

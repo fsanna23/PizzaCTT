@@ -18,7 +18,8 @@ function getState() {
     onCreateNewOrder: Actions.createNewOrder,
     onCancelOrder: Actions.cancelOrder,
     onChangeToppings: Actions.changeToppings,
-    onChangeNumber: Actions.changeNumber
+    onChangeNumber: Actions.changeNumber,
+    onAddOrderToBasket: Actions.addOrderToBasket
   };
 }
 
