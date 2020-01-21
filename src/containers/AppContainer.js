@@ -19,7 +19,9 @@ function getState() {
     onCancelOrder: Actions.cancelOrder,
     onChangeToppings: Actions.changeToppings,
     onChangeNumber: Actions.changeNumber,
-    onAddOrderToBasket: Actions.addOrderToBasket
+    onAddOrderToBasket: Actions.addOrderToBasket,
+    onOpenBasketModal: Actions.openBasketModal,
+    onCloseBasketModal: Actions.closeBasketModal
   };
 }
 

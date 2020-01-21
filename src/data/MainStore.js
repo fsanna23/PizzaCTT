@@ -9,7 +9,9 @@ class MainStore extends ReduceStore {
   }
 
   getInitialState() {
-    return Immutable.Map();
+    return Immutable.Map({
+      modalShow: false
+    });
   }
 
   reduce(state, action) {
@@ -20,6 +22,10 @@ class MainStore extends ReduceStore {
         return state.set("orderCreating", false);
       case ActionTypes.ADD_ORDER_TO_BASKET:
         return state.set("orderCreating", false);
+      case ActionTypes.OPEN_BASKET_MODAL:
+        return state.set("modalShow", true);
+      case ActionTypes.CLOSE_BASKET_MODAL:
+        return state.set("modalShow", false);
       default:
         return state;
     }

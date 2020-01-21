@@ -35,6 +35,16 @@ const Actions = {
       type: ActionTypes.ADD_ORDER_TO_BASKET,
       order
     });
+  },
+  openBasketModal() {
+    Dispatcher.dispatch({
+      type: ActionTypes.OPEN_BASKET_MODAL
+    });
+  },
+  closeBasketModal() {
+    Dispatcher.dispatch({
+      type: ActionTypes.CLOSE_BASKET_MODAL
+    });
   }
 };
 

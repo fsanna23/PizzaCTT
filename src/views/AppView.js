@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import Fade from "react-bootstrap/Fade";
 
 function AppView(props) {
-  console.log(props.draft);
-  console.log(props.order);
+  console.log(props.mainState);
   let isOrderCreating = [];
   if (props.draft.get("id") !== "id-null") {
     isOrderCreating.push(<PizzaTypeForm {...props} />);
@@ -20,7 +20,7 @@ function AppView(props) {
       {isOrderCreating[0]}
       {isOrderCreating[2]}
       {isOrderCreating[1]}
-      <MyModal />
+      <BasketModal {...props} />
     </div>
   );
 }
@@ -71,7 +71,10 @@ function NavBar(props) {
           </li>
         </ul>
         <form className="form-inline my-2 my-lg-0">
-          <button className="btn btn-outline-dark my-2 my-sm-0" type="submit">
+          <button
+            className="btn btn-outline-dark my-2 my-sm-0"
+            onClick={props.onOpenBasketModal}
+          >
             {basketSize}
           </button>
         </form>
@@ -222,32 +225,66 @@ function Footer(props) {
   );
 }
 
-function MyModal(props) {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+function BasketModal(props) {
   return (
     <div>
-      <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
-
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        show={props.mainState.get("modalShow")}
+        onHide={props.onCloseBasketModal}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Your basket</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+          {props.order.map(pizza => {
+            return (
+              <div className="card">
+                <div className="card-body">
+                  <h5 className="card-title">{"Pizza " + pizza.id.slice(3)}</h5>
+                  <p className="card-text">
+                    <strong>Pizza Type: </strong>
+                    {pizza.pizzaType}
+                  </p>
+                  <p className="card-text mb-sm-0">
+                    <strong>Pizza Toppings: </strong>
+                  </p>
+                  <ul>
+                    {Object.entries(pizza.pizzaToppings)
+                      .filter(([k, v]) => v === true)
+                      .map(([k, v]) => {
+                        return <li>{k}</li>;
+                      })}
+                  </ul>
+                  <p className="card-text">
+                    <strong>Number of pizzas: </strong>
+                    {pizza.number}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={props.onCloseBasketModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
+          <Button variant="primary" onClick={props.onCloseBasketModal}>
+            Go to Payment
           </Button>
         </Modal.Footer>
       </Modal>
+    </div>
+  );
+}
+
+function Alerts(props) {
+  /**
+   * TODO insert fading alert
+   * Insert alert when the order is added to the basket
+   */
+  return (
+    <div>
+      <Fade></Fade>
     </div>
   );
 }
