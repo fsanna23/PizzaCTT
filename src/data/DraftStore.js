@@ -1,4 +1,3 @@
-import Immutable from "immutable";
 import { ReduceStore } from "flux/utils";
 import Dispatcher from "./Dispatcher";
 import ActionTypes from "./ActionTypes";
@@ -37,11 +36,11 @@ class DraftStore extends ReduceStore {
       case ActionTypes.CHANGE_TOPPINGS:
         return state.set(
           "pizzaToppings",
-          Object.create(() => {
-            let tempToppings = state.get("pizzaToppings");
-            tempToppings[action.text] = !tempToppings[action.text];
-            return tempToppings;
-          })
+          Object.fromEntries(
+            Object.entries(state.get("pizzaToppings")).map(([k, v]) =>
+              k === action.text ? [k, !v] : [k, v]
+            )
+          )
         );
       case ActionTypes.CHANGE_NUMBER:
         return state.set("number", action.number);
