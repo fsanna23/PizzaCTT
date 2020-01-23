@@ -214,7 +214,7 @@ function Footer(props) {
   let typeSelected =
     props.draft.get("pizzaType") !== " " ? (
       <button
-        className="btn btn-primary float-right ml-2"
+        className="btn btn-primary float-right ml-2 mr-4"
         onClick={() => {
           props.onAddOrderToBasket(props.draft);
           triggerAlert();
@@ -225,8 +225,17 @@ function Footer(props) {
     ) : (
       " "
     );
+  let price =
+    props.draft.get("pizzaType") !== " " ? (
+      <h6 className="float-left mb-3 pl-4">
+        Total cost: {props.draft.get("totalCost")}
+      </h6>
+    ) : (
+      " "
+    );
   return (
     <div className="mt-3">
+      {price}
       {typeSelected}
       <button
         className="btn btn-danger float-right"
