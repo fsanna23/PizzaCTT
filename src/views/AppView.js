@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import Fade from "react-bootstrap/Fade";
+import Swal from "sweetalert2";
 
 function AppView(props) {
   console.log(props.mainState);
@@ -201,11 +201,24 @@ function PizzaNumber(props) {
 }
 
 function Footer(props) {
+  function triggerAlert() {
+    Swal.fire({
+      title: "Done!",
+      html: "Your order has been added into the basket!",
+      timer: 1550,
+      icon: "success",
+      showConfirmButton: false
+    });
+  }
+
   let typeSelected =
     props.draft.get("pizzaType") !== " " ? (
       <button
         className="btn btn-primary float-right ml-2"
-        onClick={() => props.onAddOrderToBasket(props.draft)}
+        onClick={() => {
+          props.onAddOrderToBasket(props.draft);
+          triggerAlert();
+        }}
       >
         Add order
       </button>
@@ -273,18 +286,6 @@ function BasketModal(props) {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
-  );
-}
-
-function Alerts(props) {
-  /**
-   * TODO insert fading alert
-   * Insert alert when the order is added to the basket
-   */
-  return (
-    <div>
-      <Fade></Fade>
     </div>
   );
 }
