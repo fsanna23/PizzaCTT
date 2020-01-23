@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Swal from "sweetalert2";
 
 function AppView(props) {
-  console.log(props.mainState);
+  console.log(props.draft);
   let isOrderCreating = [];
   if (props.draft.get("id") !== "id-null") {
     isOrderCreating.push(<PizzaTypeForm {...props} />);
