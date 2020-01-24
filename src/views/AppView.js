@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Swal from "sweetalert2";
+import Counter from "../data/Counter";
 
 function AppView(props) {
   console.log(props.draft);
@@ -73,7 +74,10 @@ function NavBar(props) {
         <form className="form-inline my-2 my-lg-0">
           <button
             className="btn btn-outline-dark my-2 my-sm-0"
-            onClick={props.onOpenBasketModal}
+            onClick={e => {
+              e.preventDefault();
+              props.onOpenBasketModal();
+            }}
           >
             {basketSize}
           </button>
@@ -248,6 +252,17 @@ function Footer(props) {
 }
 
 function BasketModal(props) {
+  /**
+   * TODO modify counter
+   * the counter used here is the same used on the DraftStore,
+   * because it isn't an object created from a class,
+   * but a simple function, it's like it is a static object.
+   * We can:
+   *  - modify the Counter into a class
+   *  - create another Counter just for this function
+   */
+
+  let counter = Counter;
   return (
     <div>
       <Modal
@@ -260,7 +275,7 @@ function BasketModal(props) {
         <Modal.Body>
           {props.order.map(pizza => {
             return (
-              <div className="card">
+              <div className="card" key={counter.increment()}>
                 <div className="card-body">
                   <h5 className="card-title">{"Pizza " + pizza.id.slice(3)}</h5>
                   <p className="card-text">
@@ -271,10 +286,14 @@ function BasketModal(props) {
                     <strong>Pizza Toppings: </strong>
                   </p>
                   <ul>
-                    {Object.entries(pizza.pizzaToppings)
-                      .filter(([k, v]) => v === true)
-                      .map(([k, v]) => {
-                        return <li>{k}</li>;
+                    {pizza.pizzaToppings
+                      .filter(topping => {
+                        return topping.state;
+                      })
+                      .map(topping => {
+                        return (
+                          <li key={counter.increment()}>{topping.name}</li>
+                        );
                       })}
                   </ul>
                   <p className="card-text">
