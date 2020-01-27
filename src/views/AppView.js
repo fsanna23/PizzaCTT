@@ -90,10 +90,10 @@ function NavBar(props) {
 function PizzaTypeForm(props) {
   const types = [
     " ",
-    "Tomato sauce and cheese",
-    "Tomato sauce, no cheese",
-    "Cheese, no tomato sauce",
-    "No tomato sauce, no cheese"
+    "Tomato sauce and cheese ($2.50)",
+    "Tomato sauce, no cheese ($2.00)",
+    "Cheese, no tomato sauce ($2.00)",
+    "No tomato sauce, no cheese ($1.50)"
   ];
   let typeSelected =
     props.draft.get("pizzaType") !== " " ? (
@@ -110,7 +110,7 @@ function PizzaTypeForm(props) {
             className="form-control"
             id="pizzatype"
             onChange={e => {
-              props.onChangePizzaType(e.target.value);
+              props.onChangePizzaType(e.target.value.slice(0, -8));
             }}
           >
             {types.map(type => {
@@ -126,12 +126,12 @@ function PizzaTypeForm(props) {
 
 function PizzaToppingForm(props) {
   const toppings = [
-    "Mushrooms",
-    "Olives",
-    "Bacon",
-    "Pepperoni",
-    "Onions",
-    "Green Peppers"
+    "Mushrooms ($2.00)",
+    "Olives ($1.00)",
+    "Bacon ($2.00)",
+    "Pepperoni ($1.00)",
+    "Onions ($1.00)",
+    "Green Peppers ($2.00)"
   ];
   return (
     <div className="mt-3 fadeIn">
@@ -148,7 +148,9 @@ function PizzaToppingForm(props) {
                     type="checkbox"
                     value=""
                     id={topping + "id"}
-                    onChange={() => props.onChangeToppings(topping)}
+                    onChange={() =>
+                      props.onChangeToppings(topping.slice(0, -8))
+                    }
                   />
                   <label className="form-check-label" htmlFor={topping + "id"}>
                     {topping}
@@ -168,7 +170,9 @@ function PizzaToppingForm(props) {
                     type="checkbox"
                     value=""
                     id={topping + "id"}
-                    onChange={() => props.onChangeToppings(topping)}
+                    onChange={() =>
+                      props.onChangeToppings(topping.slice(0, -8))
+                    }
                   />
                   <label className="form-check-label" htmlFor={topping + "id"}>
                     {topping}
@@ -231,9 +235,9 @@ function Footer(props) {
     );
   let price =
     props.draft.get("pizzaType") !== " " ? (
-      <h6 className="float-left mb-3 pl-4">
+      <h4 className="float-left mb-3 pl-4">
         Total cost: {props.draft.get("totalCost")}
-      </h6>
+      </h4>
     ) : (
       " "
     );
@@ -261,8 +265,6 @@ function BasketModal(props) {
    *  - modify the Counter into a class
    *  - create another Counter just for this function
    */
-
-  let counter = Counter;
   return (
     <div>
       <Modal
@@ -275,7 +277,7 @@ function BasketModal(props) {
         <Modal.Body>
           {props.order.map(pizza => {
             return (
-              <div className="card" key={counter.increment()}>
+              <div className="card" key={pizza.id + "-card"}>
                 <div className="card-body">
                   <h5 className="card-title">{"Pizza " + pizza.id.slice(3)}</h5>
                   <p className="card-text">
@@ -292,7 +294,9 @@ function BasketModal(props) {
                       })
                       .map(topping => {
                         return (
-                          <li key={counter.increment()}>{topping.name}</li>
+                          <li key={pizza.id + "-topping-" + topping.name}>
+                            {topping.name}
+                          </li>
                         );
                       })}
                   </ul>
