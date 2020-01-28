@@ -141,7 +141,7 @@ function PizzaToppingForm(props) {
         <div className="form-row">
           {toppings.slice(0, 3).map(topping => {
             return (
-              <div className="form-group col-md-2" key={topping + "maindivkey"}>
+              <div className="form-group col-md-3" key={topping + "maindivkey"}>
                 <div className="form-check">
                   <input
                     className="form-check-input"
@@ -163,7 +163,7 @@ function PizzaToppingForm(props) {
         <div className="form-row">
           {toppings.slice(3, 6).map(topping => {
             return (
-              <div className="form-group col-md-2" key={topping + "maindivkey"}>
+              <div className="form-group col-md-3" key={topping + "maindivkey"}>
                 <div className="form-check">
                   <input
                     className="form-check-input"
@@ -256,15 +256,6 @@ function Footer(props) {
 }
 
 function BasketModal(props) {
-  /**
-   * TODO modify counter
-   * the counter used here is the same used on the DraftStore,
-   * because it isn't an object created from a class,
-   * but a simple function, it's like it is a static object.
-   * We can:
-   *  - modify the Counter into a class
-   *  - create another Counter just for this function
-   */
   return (
     <div>
       <Modal
@@ -279,7 +270,22 @@ function BasketModal(props) {
             return (
               <div className="card" key={pizza.id + "-card"}>
                 <div className="card-body">
-                  <h5 className="card-title">{"Pizza " + pizza.id.slice(3)}</h5>
+                  <div className="row">
+                    <h5 className="card-title col-sm-6">
+                      {"Pizza " + pizza.id.slice(3)}
+                    </h5>
+                    <div className="card-title col-sm-6 float-right">
+                      <a href="#">
+                        <img
+                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:
+                        ANd9GcQLCghb2UYalXD3YpeUMQXYWM0ZknNEzzJYiu3nqgcTJEIF4INYag&s"
+                          className="float-right flex-column"
+                          alt="remove-icon"
+                          height="28px"
+                        />
+                      </a>
+                    </div>
+                  </div>
                   <p className="card-text">
                     <strong>Pizza Type: </strong>
                     {pizza.pizzaType}
@@ -302,7 +308,25 @@ function BasketModal(props) {
                   </ul>
                   <p className="card-text">
                     <strong>Number of pizzas: </strong>
+                    <a href="#" className="mr-1 ml-1">
+                      <img
+                        src="https://cdn.onlinewebfonts.com/svg/img_80473.png"
+                        width="17px"
+                        height="17px"
+                      />
+                    </a>
                     {pizza.number}
+                    <a href="#" className="mr-1 ml-1">
+                      <img
+                        src="http://cdn.onlinewebfonts.com/svg/img_45824.png"
+                        width="17px"
+                        height="17px"
+                      />
+                    </a>
+                  </p>
+                  <p className="card-text">
+                    <strong>Total cost: </strong>
+                    {pizza.totalCost}
                   </p>
                 </div>
               </div>
