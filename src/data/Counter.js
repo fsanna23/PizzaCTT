@@ -4,6 +4,9 @@ const Counter = {
   increment() {
     return "id-" + String(_counter++);
   },
+  decrementWithoutReturning() {
+    _counter--;
+  },
   getValue() {
     return "id-" + String(_counter);
   },

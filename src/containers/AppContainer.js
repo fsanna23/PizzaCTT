@@ -20,8 +20,10 @@ function getState() {
     onChangeToppings: Actions.changeToppings,
     onChangeNumber: Actions.changeNumber,
     onAddOrderToBasket: Actions.addOrderToBasket,
+    onClearDraft: Actions.clearDraft,
     onOpenBasketModal: Actions.openBasketModal,
-    onCloseBasketModal: Actions.closeBasketModal
+    onCloseBasketModal: Actions.closeBasketModal,
+    onRemoveOrderFromBasket: Actions.removeOrderFromBasket
   };
 }
 

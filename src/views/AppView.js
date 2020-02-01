@@ -5,7 +5,8 @@ import Swal from "sweetalert2";
 import Counter from "../data/Counter";
 
 function AppView(props) {
-  console.log(props.draft);
+  console.log("The order is: ", props.order);
+  console.log("The draft is: ", props.draft);
   let isOrderCreating = [];
   if (props.draft.get("id") !== "id-null") {
     isOrderCreating.push(<PizzaTypeForm {...props} />);
@@ -65,7 +66,12 @@ function NavBar(props) {
             <a
               className="nav-link"
               href="#"
-              onClick={() => props.onCreateNewOrder()}
+              onClick={e => {
+                e.preventDefault();
+                return props.draft.get("id") === "id-null"
+                  ? props.onCreateNewOrder()
+                  : null;
+              }}
             >
               Create new order
             </a>
@@ -223,8 +229,10 @@ function Footer(props) {
     props.draft.get("pizzaType") !== " " ? (
       <button
         className="btn btn-primary float-right ml-2 mr-4"
-        onClick={() => {
+        onClick={e => {
+          e.preventDefault();
           props.onAddOrderToBasket(props.draft);
+          //props.onClearDraft();
           triggerAlert();
         }}
       >
@@ -266,7 +274,7 @@ function BasketModal(props) {
           <Modal.Title>Your basket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {props.order.map(pizza => {
+          {props.order.map((pizza, index) => {
             return (
               <div className="card" key={pizza.id + "-card"}>
                 <div className="card-body">
@@ -275,7 +283,13 @@ function BasketModal(props) {
                       {"Pizza " + pizza.id.slice(3)}
                     </h5>
                     <div className="card-title col-sm-6 float-right">
-                      <a href="#">
+                      <a
+                        href="#"
+                        onClick={e => {
+                          e.preventDefault();
+                          props.onRemoveOrderFromBasket(index);
+                        }}
+                      >
                         <img
                           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:
                         ANd9GcQLCghb2UYalXD3YpeUMQXYWM0ZknNEzzJYiu3nqgcTJEIF4INYag&s"

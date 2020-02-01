@@ -36,6 +36,11 @@ const Actions = {
       order
     });
   },
+  clearDraft() {
+    Dispatcher.dispatch({
+      type: ActionTypes.CLEAR_DRAFT
+    });
+  },
   openBasketModal() {
     Dispatcher.dispatch({
       type: ActionTypes.OPEN_BASKET_MODAL
@@ -44,6 +49,12 @@ const Actions = {
   closeBasketModal() {
     Dispatcher.dispatch({
       type: ActionTypes.CLOSE_BASKET_MODAL
+    });
+  },
+  removeOrderFromBasket(index) {
+    Dispatcher.dispatch({
+      type: ActionTypes.REMOVE_ORDER_FROM_BASKET,
+      index
     });
   }
 };
