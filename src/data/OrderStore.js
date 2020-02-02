@@ -29,10 +29,37 @@ class OrderStore extends ReduceStore {
         return state.push(newOrder);
       case ActionTypes.REMOVE_ORDER_FROM_BASKET:
         Counter.decrementWithoutReturning();
-        // TODO add update of other indices in order
         return state.delete(action.index).map((order, index) => {
           if (index >= action.index) {
             return this.shiftOtherNumbers(order);
+          }
+          return order;
+        });
+      case ActionTypes.INCREASE_ORDER:
+        return state.map((order, index) => {
+          if (index === action.index) {
+            let oldNumber = order.get("number");
+            let newNumber = oldNumber + 1;
+            return order
+              .update("number", number => newNumber)
+              .update(
+                "totalCost",
+                totalCost => (totalCost / oldNumber) * newNumber
+              );
+          }
+          return order;
+        });
+      case ActionTypes.DECREASE_ORDER:
+        return state.map((order, index) => {
+          if (index === action.index) {
+            let oldNumber = order.get("number");
+            let newNumber = oldNumber - 1;
+            return order
+              .update("number", number => newNumber)
+              .update(
+                "totalCost",
+                totalCost => (totalCost / oldNumber) * newNumber
+              );
           }
           return order;
         });

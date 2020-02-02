@@ -56,6 +56,18 @@ const Actions = {
       type: ActionTypes.REMOVE_ORDER_FROM_BASKET,
       index
     });
+  },
+  increaseOrder(index) {
+    Dispatcher.dispatch({
+      type: ActionTypes.INCREASE_ORDER,
+      index
+    });
+  },
+  decreaseOrder(index) {
+    Dispatcher.dispatch({
+      type: ActionTypes.DECREASE_ORDER,
+      index
+    });
   }
 };
 

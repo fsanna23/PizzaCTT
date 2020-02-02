@@ -322,7 +322,14 @@ function BasketModal(props) {
                   </ul>
                   <p className="card-text">
                     <strong>Number of pizzas: </strong>
-                    <a href="#" className="mr-1 ml-1">
+                    <a
+                      href="#"
+                      className="mr-1 ml-1"
+                      onClick={e => {
+                        e.preventDefault();
+                        if (pizza.number !== 1) props.onDecreaseOrder(index);
+                      }}
+                    >
                       <img
                         src="https://cdn.onlinewebfonts.com/svg/img_80473.png"
                         width="17px"
@@ -330,7 +337,14 @@ function BasketModal(props) {
                       />
                     </a>
                     {pizza.number}
-                    <a href="#" className="mr-1 ml-1">
+                    <a
+                      href="#"
+                      className="mr-1 ml-1"
+                      onClick={e => {
+                        e.preventDefault();
+                        if (pizza.number !== 20) props.onIncreaseOrder(index);
+                      }}
+                    >
                       <img
                         src="http://cdn.onlinewebfonts.com/svg/img_45824.png"
                         width="17px"

@@ -23,7 +23,9 @@ function getState() {
     onClearDraft: Actions.clearDraft,
     onOpenBasketModal: Actions.openBasketModal,
     onCloseBasketModal: Actions.closeBasketModal,
-    onRemoveOrderFromBasket: Actions.removeOrderFromBasket
+    onRemoveOrderFromBasket: Actions.removeOrderFromBasket,
+    onIncreaseOrder: Actions.increaseOrder,
+    onDecreaseOrder: Actions.decreaseOrder
   };
 }
 
