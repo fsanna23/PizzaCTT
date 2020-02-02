@@ -30,7 +30,12 @@ class OrderStore extends ReduceStore {
       case ActionTypes.REMOVE_ORDER_FROM_BASKET:
         Counter.decrementWithoutReturning();
         // TODO add update of other indices in order
-        return state.delete(action.index);
+        return state.delete(action.index).map((order, index) => {
+          if (index >= action.index) {
+            return this.shiftOtherNumbers(order);
+          }
+          return order;
+        });
       default:
         return state;
     }
