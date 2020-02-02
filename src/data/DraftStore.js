@@ -130,13 +130,11 @@ class DraftStore extends ReduceStore {
       case ActionTypes.CANCEL_ORDER:
         return state.clear();
       case ActionTypes.CLEAR_DRAFT:
-        state.get("pizzaToppings").map(topping => {
-          if (topping.state) {
-            topping.state = false;
-          }
-          return topping;
+        return state.clear().update("pizzaToppings", toppings => {
+          return toppings.map(topping =>
+            Object.assign(topping, { state: false })
+          );
         });
-        return state.clear();
       default:
         return state;
     }

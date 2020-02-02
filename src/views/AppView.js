@@ -232,7 +232,7 @@ function Footer(props) {
         onClick={e => {
           e.preventDefault();
           props.onAddOrderToBasket(props.draft);
-          //props.onClearDraft();
+          props.onClearDraft();
           triggerAlert();
         }}
       >

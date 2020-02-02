@@ -25,7 +25,8 @@ class OrderStore extends ReduceStore {
   reduce(state, action) {
     switch (action.type) {
       case ActionTypes.ADD_ORDER_TO_BASKET:
-        return state.push(new Pizza(action.order));
+        const newOrder = Pizza(action.order.toJS());
+        return state.push(newOrder);
       case ActionTypes.REMOVE_ORDER_FROM_BASKET:
         Counter.decrementWithoutReturning();
         // TODO add update of other indices in order
