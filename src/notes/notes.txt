@@ -1,0 +1,78 @@
+Lo State Sequence non mi serve perchè non ho delle sequenze da creare.
+Il TouchStateSequence veniva usato nel test touch perchè in una interfaccia
+di tipo multi touch era possibile avere diversi ID corrispondenti a dei touch
+diversi e per ognuno si voleva tenere traccia degli indici.
+Il TouchStateSequence veniva usato come cronologia degli stati: infatti
+è specificato un delay nel get perchè permetteva di andare a verificare
+lo stato "delay" volte prima.
+
+Mi basta una sola costante del tipo
+
+var _TOUCHSTART = 1;
+
+che deve avere solo valore simbolico.
+
+Quando vado a creare i miei JSON del tipo
+
+var pinch = {
+    sequence: [
+      {
+        anyOrder: [
+          { gt: "touch.start", tid: 1 },
+          { gt: "touch.start", tid: 2 }
+        ]
+      },
+      {
+        disabling: [
+          {
+            parallel: [
+              { gt: "touch.move", tid: 1, id: "pinch.move1" },
+              { gt: "touch.move", tid: 2 }
+            ],
+            iterative: true
+          },
+          {
+            anyOrder: [
+              { gt: "touch.end", tid: 1 },
+              { gt: "touch.end", tid: 2 }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+
+Posso avere in mezzo a questo JSON un attributo che mi consenta di collegare
+poi le actions di Flux alla libreria djestit.
+Questo per farlo in modo dichiarativo. In questo modo sto andando prima a definirmi
+la struttura di quello che è l'albero CTT, quindi la parte astratta, e poi
+andrò a completare tramite la parte concreta ossia l'interfaccia vera e propria.
+
+In questa parte
+
+djestit.touchExpression = function(json) {
+    if (json.gt) {
+      switch (json.gt) {
+        case "touch.start":
+          return new djestit.TouchStart(json.tid);
+          break;
+        case "touch.move":
+          return new djestit.TouchMove(json.tid);
+          break;
+        case "touch.end":
+          return new djestit.TouchEnd(json.tid);
+          break;
+      }
+    }
+  };
+
+
+Avrò tipi camente un solo if poichè avrò solo una costante.
+Non mi servirà nessuno switch.
+
+Dovrò ovviamente registrarlo tramite
+
+djestit.registerGroundTerm("touch.start", djestit.touchExpression);
+
+Devo anche creare il mio TouchSensor, che mi permetta di generare
+dei nuovi GroundTerms.
