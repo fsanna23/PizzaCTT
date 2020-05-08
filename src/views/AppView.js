@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Swal from "sweetalert2";
-import Counter from "../data/Counter";
 
 function AppView(props) {
-  console.log("The order is: ", props.order);
-  console.log("The draft is: ", props.draft);
+  // console.log("The order is: ", props.order);
+  // console.log("The draft is: ", props.draft);
   let isOrderCreating = [];
   if (props.draft.get("id") !== "id-null") {
     isOrderCreating.push(<PizzaTypeForm {...props} />);
@@ -150,7 +149,7 @@ function PizzaToppingForm(props) {
               <div className="form-group col-md-3" key={topping + "maindivkey"}>
                 <div className="form-check">
                   <input
-                    className="form-check-input"
+                    className="form-check-input pizzatopping"
                     type="checkbox"
                     value=""
                     id={topping + "id"}
@@ -172,7 +171,7 @@ function PizzaToppingForm(props) {
               <div className="form-group col-md-3" key={topping + "maindivkey"}>
                 <div className="form-check">
                   <input
-                    className="form-check-input"
+                    className="form-check-input pizzatopping"
                     type="checkbox"
                     value=""
                     id={topping + "id"}
@@ -274,92 +273,96 @@ function BasketModal(props) {
           <Modal.Title>Your basket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {props.order.map((pizza, index) => {
-            return (
-              <div className="card" key={pizza.id + "-card"}>
-                <div className="card-body">
-                  <div className="row">
-                    <h5 className="card-title col-sm-6">
-                      {"Pizza " + pizza.id.slice(3)}
-                    </h5>
-                    <div className="card-title col-sm-6 float-right">
+          {props.order.isEmpty() ? (
+            <p className="text-center">Your basket is empty</p>
+          ) : (
+            props.order.map((pizza, index) => {
+              return (
+                <div className="card" key={pizza.id + "-card"}>
+                  <div className="card-body">
+                    <div className="row">
+                      <h5 className="card-title col-sm-6">
+                        {"Pizza " + pizza.id.slice(3)}
+                      </h5>
+                      <div className="card-title col-sm-6 float-right">
+                        <a
+                          href="#"
+                          onClick={e => {
+                            e.preventDefault();
+                            props.onRemoveOrderFromBasket(index);
+                          }}
+                        >
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:
+                        ANd9GcQLCghb2UYalXD3YpeUMQXYWM0ZknNEzzJYiu3nqgcTJEIF4INYag&s"
+                            className="float-right flex-column"
+                            alt="remove-icon"
+                            height="28px"
+                          />
+                        </a>
+                      </div>
+                    </div>
+                    <p className="card-text">
+                      <strong>Pizza Type: </strong>
+                      {pizza.pizzaType}
+                    </p>
+                    <p className="card-text mb-sm-0">
+                      <strong>Pizza Toppings: </strong>
+                    </p>
+                    <ul>
+                      {pizza.pizzaToppings
+                        .filter(topping => {
+                          return topping.state;
+                        })
+                        .map(topping => {
+                          return (
+                            <li key={pizza.id + "-topping-" + topping.name}>
+                              {topping.name}
+                            </li>
+                          );
+                        })}
+                    </ul>
+                    <p className="card-text">
+                      <strong>Number of pizzas: </strong>
                       <a
                         href="#"
+                        className="mr-1 ml-1"
                         onClick={e => {
                           e.preventDefault();
-                          props.onRemoveOrderFromBasket(index);
+                          if (pizza.number !== 1) props.onDecreaseOrder(index);
                         }}
                       >
                         <img
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:
-                        ANd9GcQLCghb2UYalXD3YpeUMQXYWM0ZknNEzzJYiu3nqgcTJEIF4INYag&s"
-                          className="float-right flex-column"
-                          alt="remove-icon"
-                          height="28px"
+                          src="https://cdn.onlinewebfonts.com/svg/img_80473.png"
+                          width="17px"
+                          height="17px"
                         />
                       </a>
-                    </div>
+                      {pizza.number}
+                      <a
+                        href="#"
+                        className="mr-1 ml-1"
+                        onClick={e => {
+                          e.preventDefault();
+                          if (pizza.number !== 20) props.onIncreaseOrder(index);
+                        }}
+                      >
+                        <img
+                          src="http://cdn.onlinewebfonts.com/svg/img_45824.png"
+                          width="17px"
+                          height="17px"
+                        />
+                      </a>
+                    </p>
+                    <p className="card-text">
+                      <strong>Total cost: </strong>
+                      {pizza.totalCost}
+                    </p>
                   </div>
-                  <p className="card-text">
-                    <strong>Pizza Type: </strong>
-                    {pizza.pizzaType}
-                  </p>
-                  <p className="card-text mb-sm-0">
-                    <strong>Pizza Toppings: </strong>
-                  </p>
-                  <ul>
-                    {pizza.pizzaToppings
-                      .filter(topping => {
-                        return topping.state;
-                      })
-                      .map(topping => {
-                        return (
-                          <li key={pizza.id + "-topping-" + topping.name}>
-                            {topping.name}
-                          </li>
-                        );
-                      })}
-                  </ul>
-                  <p className="card-text">
-                    <strong>Number of pizzas: </strong>
-                    <a
-                      href="#"
-                      className="mr-1 ml-1"
-                      onClick={e => {
-                        e.preventDefault();
-                        if (pizza.number !== 1) props.onDecreaseOrder(index);
-                      }}
-                    >
-                      <img
-                        src="https://cdn.onlinewebfonts.com/svg/img_80473.png"
-                        width="17px"
-                        height="17px"
-                      />
-                    </a>
-                    {pizza.number}
-                    <a
-                      href="#"
-                      className="mr-1 ml-1"
-                      onClick={e => {
-                        e.preventDefault();
-                        if (pizza.number !== 20) props.onIncreaseOrder(index);
-                      }}
-                    >
-                      <img
-                        src="http://cdn.onlinewebfonts.com/svg/img_45824.png"
-                        width="17px"
-                        height="17px"
-                      />
-                    </a>
-                  </p>
-                  <p className="card-text">
-                    <strong>Total cost: </strong>
-                    {pizza.totalCost}
-                  </p>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={props.onCloseBasketModal}>

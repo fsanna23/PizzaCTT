@@ -67,7 +67,7 @@ djestit.touchExpression = function(json) {
   };
 
 
-Avrò tipi camente un solo if poichè avrò solo una costante.
+Avrò tipicamente un solo if poichè avrò solo una costante.
 Non mi servirà nessuno switch.
 
 Dovrò ovviamente registrarlo tramite

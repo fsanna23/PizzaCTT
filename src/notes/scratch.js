@@ -18,7 +18,7 @@ djestit.onComplete(':has(:root > .gt:val("touch.start"))', pan, function() {
 
 /*
  * Here we have a call on the onComplete function of the djestit object.
- * First, let's look at the function decleration in the djestit file.
+ * First, let's look at the function declaration in the djestit file.
  */
 
 djestit.onComplete = function(selector, expression, f) {

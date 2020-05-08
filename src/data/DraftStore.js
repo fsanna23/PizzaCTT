@@ -33,8 +33,6 @@ class DraftStore extends ReduceStore {
   }
 
   setNewCost(obj) {
-    console.log("Setting new cost, changing " + obj.type);
-    console.log(obj.state.get("pizzaToppings"));
     let totalCost = 0;
     let state = obj.state;
     switch (obj.type) {

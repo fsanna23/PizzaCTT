@@ -1,0 +1,10 @@
+Creare uno store che sia "intelligente": deve riuscire a capire quali
+sono le azioni che corrispondono a più ground terms, se ci sono più
+azioni che indicano un solo groundterm.
+Possibile utilizzo di una mappa per creare queste associazioni. Capire come.
+
+Lo store deve anche occuparsi dell'istanziamento del sensore.
+
+Assicurarsi che il modello dei task non abbia più task rispetto al numero di azioni.
+Detto in un altro modo, tipicamente dovrei avere più azioni che task.
+

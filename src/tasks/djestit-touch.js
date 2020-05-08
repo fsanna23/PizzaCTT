@@ -212,4 +212,4 @@
   };
 
   djestit.TouchSensor = TouchSensor;
-})((window.djestit = window.djestit || {}), undefined);
+})((window.djestit = window.Djestit || {}), undefined);

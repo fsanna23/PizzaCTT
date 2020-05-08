@@ -687,4 +687,4 @@
   djestit.onError = function(selector, expression, f) {
     djestit._attachHandler(selector, expression, "error", f);
   };
-})((window.djestit = window.djestit || {}), undefined);
+})((window.djestit = window.Djestit || {}), undefined);

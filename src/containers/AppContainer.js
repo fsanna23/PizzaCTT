@@ -4,9 +4,10 @@ import MainStore from "../data/MainStore";
 import OrderStore from "../data/OrderStore";
 import Actions from "../data/MainActions";
 import DraftStore from "../data/DraftStore";
+import { pizzaTaskStore } from "../data/PizzaTaskModelStore";
 
 function getStores() {
-  return [MainStore, OrderStore, DraftStore];
+  return [MainStore, OrderStore, DraftStore, pizzaTaskStore];
 }
 
 function getState() {

@@ -1,47 +1,59 @@
-/**
- * This file should be like "djestit-touch" but with less things
- */
-
 (function(djestit, undefined) {
-  var _MOUSECLICK = 1;
+  let _MYCONST = 1;
 
-  var PizzaToken = function(id, type) {
-    this.id = id;
+  let MyConstToken = function(type, id) {
     this.type = type;
+    this.id = id;
   };
-  PizzaToken.prototype = new djestit.Token();
-  djestit.PizzaToken = PizzaToken;
+  MyConstToken.prototype = new djestit.Token();
+  djestit.ConstToken = MyConstToken;
 
-  var MouseClick = function(id) {
+  let MyConst = function(id) {
     this.init();
     this.id = id;
 
     this._accepts = function(token) {
-      if (token.type !== _MOUSECLICK) {
-        return false;
-      }
-      if (this.id && this.id !== null && this.id !== token.id) {
-        return false;
-      }
-      return true;
+      return token.type === _MYCONST && token.tid === this.id;
     };
   };
-  MouseClick.prototype = new djestit.GroundTerm();
-  djestit.MouseClick = MouseClick;
+  MyConst.prototype = new djestit.GroundTerm();
+  djestit.MyConst = MyConst;
 
-  /* The StateSequence isn't required here because there isn't
-  a sequence of clicks to make in the interface in order to
-  do something; there are single clicks only tasks.*/
-
-  djestit.clickExpression = function(json) {
+  djestit.myConstExpression = function(json) {
     if (json.gt) {
-      switch (json.gt) {
-        case "mouse.click":
-          return new djestit.MouseClick(json.tid);
-          break;
-      }
+      return new djestit.MyConst();
     }
   };
 
-  djestit.registerGroundTerm("mouse.click", djestit.clickExpression);
-})((window.djestit = window.djestit || {}), undefined);
+  djestit.registerGroundTerm("const.myconst", djestit.myConstExpression);
+
+  let MyConstSensor = function(root, capacity) {
+    if (root instanceof djestit.Term) {
+      this.root = root;
+    } else {
+      this.root = djestit.expression(root);
+    }
+    this.sequence = new djestit.StateSequence(capacity);
+    let self = this;
+
+    this._generateToken = function(type) {
+      let token = new MyConstToken(type);
+      this.sequence.push(token);
+      token.sequence = this.sequence;
+      return token;
+    };
+
+    this.fireToken = function(name) {
+      let token = self._generateToken(name);
+      self.root.fire(token);
+    };
+
+    /*  This function is used to reset all the terms in your json.
+     *  It has to be tested. */
+    this.resetTerms = function() {
+      self.root.reset();
+    };
+  };
+
+  djestit.MyConstSensor = MyConstSensor;
+})((window.djestit = window.Djestit || {}), undefined);
