@@ -143,7 +143,8 @@ class Djestit {
         this.state = _COMPLETE;
         this.onComplete.trigger({
           evt: "completed",
-          token: token
+          token: token,
+          term: this
         });
       };
 

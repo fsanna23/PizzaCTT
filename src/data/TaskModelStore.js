@@ -32,7 +32,7 @@ class TaskModelStore extends ReduceStore {
             ':has(:root > .srid:val("' + task + '"))',
             jsonTree,
             function(evt) {
-              console.log("You have completed the task " + evt.token.id);
+              console.log("You have completed the task " + evt.term.srid);
             }
           );
         });

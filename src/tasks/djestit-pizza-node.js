@@ -33,11 +33,76 @@ class DjestitGeneric extends Djestit {
 
     this.registerGroundTerm("const.myconst", this.myConstExpression);
 
+    /*
+      The alternative expression generator used to associate an ID to
+      the CompositeTerms; in this way, when they are completed, I can
+      print their ID instead of the token's.
+     */
+    this.extendedExpression = function(json) {
+      let exp = null;
+      let ch = [];
+      if (json.choice) {
+        exp = new self.Choice();
+        ch = json.choice;
+      }
+
+      if (json.disabling) {
+        exp = new self.Disabling();
+        ch = json.disabling;
+      }
+
+      if (json.anyOrder) {
+        exp = new self.OrderIndependence();
+        ch = json.anyOrder;
+      }
+
+      if (json.parallel) {
+        exp = new self.Parallel();
+        ch = json.parallel;
+      }
+
+      if (json.sequence) {
+        exp = new self.Sequence();
+        ch = json.sequence;
+      }
+
+      if (json.gt) {
+        if (self._groundTerms[json.gt] !== undefined) {
+          exp = self._groundTerms[json.gt](json);
+        }
+      }
+
+      if (json.srid) {
+        exp.srid = json.srid;
+      }
+
+      if (json.complete) {
+        exp.onComplete.add(json.complete);
+      }
+
+      if (json.error) {
+        exp.onError.add(json.error);
+      }
+
+      // recoursively descend into sub expressions
+      for (let i = 0; i < ch.length; i++) {
+        let subterm = self.extendedExpression(ch[i]);
+        exp.children.push(subterm);
+      }
+
+      if (json.iterative && json.iterative === true) {
+        let it = exp;
+        exp = new self.Iterative(it);
+      }
+
+      return exp;
+    };
+
     let MyConstSensor = function(root) {
       if (root instanceof self.Term) {
         this.root = root;
       } else {
-        this.root = self.expression(root);
+        this.root = self.extendedExpression(root);
       }
       this.sequence = new self.StateSequence(3);
 
