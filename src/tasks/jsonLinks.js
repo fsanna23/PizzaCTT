@@ -8,5 +8,6 @@ let mapLinks = new Map();
 mapLinks.set(ActionTypes.CHANGE_PIZZA_TYPE, "selectpizza");
 mapLinks.set(ActionTypes.CHANGE_TOPPINGS, "addtopping");
 mapLinks.set(ActionTypes.CHANGE_NUMBER, "specifyorderamount");
+mapLinks.set("_subroots", ["addtobasket", "managebasket"]);
 
 export default mapLinks;

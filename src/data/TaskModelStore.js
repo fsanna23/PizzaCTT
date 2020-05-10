@@ -24,15 +24,28 @@ class TaskModelStore extends ReduceStore {
   }
 
   _setDefaultCompleteActions(taskMap, jsonTree) {
-    let taskList = Array.from(taskMap.values());
-    taskList.forEach(task => {
-      this._model.onComplete(
-        ':has(:root > .tid:val("' + task + '"))',
-        jsonTree,
-        function(evt) {
-          console.log("You have completed the task " + evt.token.id);
-        }
-      );
+    let taskList = Array.from(taskMap.entries());
+    taskList.forEach(entry => {
+      if (entry[0] === "_subroots") {
+        entry[1].forEach(task => {
+          this._model.onComplete(
+            ':has(:root > .srid:val("' + task + '"))',
+            jsonTree,
+            function(evt) {
+              console.log("You have completed the task " + evt.token.id);
+            }
+          );
+        });
+      } else {
+        let task = entry[1];
+        this._model.onComplete(
+          ':has(:root > .tid:val("' + task + '"))',
+          jsonTree,
+          function(evt) {
+            console.log("You have completed the task " + evt.token.id);
+          }
+        );
+      }
     });
   }
 
