@@ -7,13 +7,14 @@ class TaskModelStore extends ReduceStore {
    * Creates a new object of class TaskModelStore
    * @param jsonTree the task model tree in json format
    * @param taskMap a Map object containing the relationships between ActionTypes and tasks
+   * @param taskHandlers a Map object containing the handlers for each task (optional)
    */
-  constructor(jsonTree, taskMap) {
+  constructor(jsonTree, taskMap, taskHandlers) {
     super(Dispatcher);
-    this._model = new DjestitGeneric();
-    this._setDefaultCompleteActions(taskMap, jsonTree);
-    this._sensor = new this._model.MyConstSensor(jsonTree);
     this._taskMap = taskMap;
+    this._model = new DjestitGeneric();
+    this._setHandlers(taskMap, jsonTree, taskHandlers);
+    this._sensor = new this._model.MyConstSensor(jsonTree);
   }
 
   /*   The getInitialState function is called before the constructor,
@@ -23,28 +24,37 @@ class TaskModelStore extends ReduceStore {
     return {};
   }
 
-  _setDefaultCompleteActions(taskMap, jsonTree) {
-    let taskList = Array.from(taskMap.entries());
+  _setHandlers(taskMap, jsonTree, taskHandlers) {
+    const taskList = taskHandlers
+      ? Array.from(taskHandlers.entries())
+      : Array.from(taskMap.entries());
     taskList.forEach(entry => {
-      if (entry[0] === "_subroots") {
-        entry[1].forEach(task => {
+      if (taskHandlers) {
+        this._model.onComplete(
+          ':has(:root > .tid:val("' + entry[0] + '"))',
+          jsonTree,
+          entry[1]
+        );
+      } else {
+        if (entry[0] === "_subroots") {
+          entry[1].forEach(task => {
+            this._model.onComplete(
+              ':has(:root > .tid:val("' + task + '"))',
+              jsonTree,
+              function(evt) {
+                console.log("You have completed the task " + evt.term.id);
+              }
+            );
+          });
+        } else {
           this._model.onComplete(
-            ':has(:root > .srid:val("' + task + '"))',
+            ':has(:root > .tid:val("' + entry[1] + '"))',
             jsonTree,
             function(evt) {
-              console.log("You have completed the task " + evt.term.srid);
+              console.log("You have completed the task " + evt.term.id);
             }
           );
-        });
-      } else {
-        let task = entry[1];
-        this._model.onComplete(
-          ':has(:root > .tid:val("' + task + '"))',
-          jsonTree,
-          function(evt) {
-            console.log("You have completed the task " + evt.token.id);
-          }
-        );
+        }
       }
     });
   }
@@ -57,7 +67,7 @@ class TaskModelStore extends ReduceStore {
    *   unchanged). The actual actions are made on the taskMap variable. */
   reduce(state, action) {
     if (this._taskMap.has(action.type)) {
-      let tasks = this._taskMap.get(action.type);
+      const tasks = this._taskMap.get(action.type);
       if (tasks instanceof Array) {
         tasks.forEach(task => {
           this._sensor.fireToken(task);

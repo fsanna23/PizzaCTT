@@ -72,8 +72,8 @@ class DjestitGeneric extends Djestit {
         }
       }
 
-      if (json.srid) {
-        exp.srid = json.srid;
+      if (json.tid && !json.gt) {
+        exp.id = json.tid;
       }
 
       if (json.complete) {

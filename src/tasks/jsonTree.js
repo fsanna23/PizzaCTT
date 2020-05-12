@@ -4,7 +4,7 @@ let addToBasket = {
     { gt: "const.myconst", tid: "addtopping" },
     { gt: "const.myconst", tid: "specifyorderamount" }
   ],
-  srid: "addtobasket"
+  tid: "addtobasket"
 };
 
 let manageBasket = {
@@ -12,7 +12,7 @@ let manageBasket = {
     { gt: "const.myconst", tid: "deletepizza", iterative: true },
     { gt: "const.myconst", tid: "changeamount", iterative: true }
   ],
-  srid: "managebasket"
+  tid: "managebasket"
 };
 
 let enterOrderDetails = {
@@ -20,7 +20,7 @@ let enterOrderDetails = {
     { gt: "const.myconst", tid: "enteraddress" },
     { gt: "const.myconst", tid: "entername" }
   ],
-  srid: "enterorderdetails"
+  tid: "enterorderdetails"
 };
 
 let confirmOrder = {
@@ -33,7 +33,7 @@ let confirmOrder = {
       ]
     }
   ],
-  srid: "confirmorder"
+  tid: "confirmorder"
 };
 
 /*  makeOrder must be the input of the sensor */
@@ -53,7 +53,7 @@ let makeOrder = {
     },
     { gt: "const.myconst", tid: "processorder" }
   ],
-  srid: "makeorder"
+  tid: "makeorder"
 };
 
 export { makeOrder };
