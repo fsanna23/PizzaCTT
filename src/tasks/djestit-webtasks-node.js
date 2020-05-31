@@ -118,8 +118,7 @@ class DjestitGeneric extends Djestit {
         this.root.fire(token);
       };
 
-      /*  This function is used to reset all the terms in your json.
-       *  It has to be tested. */
+      /*  This function is used to reset all the terms in your json. */
       this.resetTerms = function() {
         this.root.reset();
       };

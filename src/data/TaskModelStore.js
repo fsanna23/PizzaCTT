@@ -75,6 +75,10 @@ class TaskModelStore extends ReduceStore {
   reduce(state, action) {
     if (this._taskMap.has(action.type)) {
       const tasks = this._taskMap.get(action.type);
+      if (tasks === "_reset") {
+        this._sensor.resetTerms();
+        return state;
+      }
       /* If more than one tasks need to be fired when the action is executed */
       if (tasks instanceof Array) {
         // Fire all the tasks
@@ -83,7 +87,6 @@ class TaskModelStore extends ReduceStore {
         });
       } else {
         // Tasks is actually a single task and I need to fire only that task
-        console.log("Firing  ->" + tasks);
         this._sensor.fireToken(tasks);
       }
       return state;

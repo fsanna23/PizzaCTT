@@ -68,6 +68,26 @@ const Actions = {
       type: ActionTypes.DECREASE_ORDER,
       index
     });
+  },
+  openPaymentModal() {
+    Dispatcher.dispatch({
+      type: ActionTypes.OPEN_PAYMENT_MODAL
+    });
+  },
+  closePaymentModal() {
+    Dispatcher.dispatch({
+      type: ActionTypes.CLOSE_PAYMENT_MODAL
+    });
+  },
+  editPaymentName() {
+    Dispatcher.dispatch({
+      type: ActionTypes.EDIT_PAYMENT_NAME
+    });
+  },
+  editPaymentAddress() {
+    Dispatcher.dispatch({
+      type: ActionTypes.EDIT_PAYMENT_ADDRESS
+    });
   }
 };
 

@@ -26,7 +26,11 @@ function getState() {
     onCloseBasketModal: Actions.closeBasketModal,
     onRemoveOrderFromBasket: Actions.removeOrderFromBasket,
     onIncreaseOrder: Actions.increaseOrder,
-    onDecreaseOrder: Actions.decreaseOrder
+    onDecreaseOrder: Actions.decreaseOrder,
+    onOpenPaymentModal: Actions.openPaymentModal,
+    onClosePaymentModal: Actions.closePaymentModal,
+    onEditPaymentName: Actions.editPaymentName,
+    onEditPaymentAddress: Actions.editPaymentAddress
   };
 }
 

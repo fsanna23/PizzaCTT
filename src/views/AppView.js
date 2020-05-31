@@ -22,6 +22,7 @@ function AppView(props) {
       {isOrderCreating[2]}
       {isOrderCreating[1]}
       <BasketModal {...props} />
+      <PaymentModal {...props} />
     </div>
   );
 }
@@ -368,8 +369,79 @@ function BasketModal(props) {
           <Button variant="secondary" onClick={props.onCloseBasketModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={props.onCloseBasketModal}>
+          <Button
+            variant="primary"
+            onClick={e => {
+              e.preventDefault();
+              props.onCloseBasketModal();
+              props.onOpenPaymentModal();
+            }}
+          >
             Go to Payment
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+}
+
+function PaymentModal(props) {
+  function triggerAlert() {
+    Swal.fire({
+      title: "Done!",
+      html: "Your pizzas will be ready in a few minutes!",
+      timer: 1550,
+      icon: "success",
+      showConfirmButton: false
+    });
+  }
+
+  return (
+    <div>
+      <Modal
+        show={props.mainState.get("paymentModalShow")}
+        onHide={props.onClosePaymentModal}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Payment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className="form-group">
+              <label htmlFor="paymentName">Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="paymentName"
+                placeholder="Enter your name"
+                onBlur={props.onEditPaymentName}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="paymentAddress">Address</label>
+              <input
+                type="text"
+                className="form-control"
+                id="paymentAddress"
+                placeholder="Enter your address"
+                onBlur={props.onEditPaymentAddress}
+              />
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={props.onClosePaymentModal}>
+            Close
+          </Button>
+          <Button
+            variant="primary"
+            onClick={e => {
+              e.preventDefault();
+              props.onClosePaymentModal();
+              triggerAlert();
+            }}
+          >
+            Pay
           </Button>
         </Modal.Footer>
       </Modal>

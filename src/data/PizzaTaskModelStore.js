@@ -10,6 +10,8 @@ let mapLinks = new Map();
 mapLinks.set(ActionTypes.CHANGE_PIZZA_TYPE, "selectpizza");
 mapLinks.set(ActionTypes.CHANGE_TOPPINGS, "addtopping");
 mapLinks.set(ActionTypes.CHANGE_NUMBER, "specifyorderamount");
+mapLinks.set(ActionTypes.REMOVE_ORDER_FROM_BASKET, "deletepizza");
+mapLinks.set(ActionTypes.CANCEL_ORDER, "_reset");
 
 /* The "_subroots" association has to be made if you're not going to
  *  pass the handlersEventMap to the TaskModelStore; adding this
@@ -23,6 +25,6 @@ handlersEventMap.set("selectpizza", function(evt) {
   console.log("You have completed the task " + evt.term.id);
 });
 
-let pizzaTaskStore = new TaskModelStore(makeOrder, mapLinks, handlersEventMap);
+let pizzaTaskStore = new TaskModelStore(makeOrder, mapLinks);
 
 export { pizzaTaskStore };

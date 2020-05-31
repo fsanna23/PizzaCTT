@@ -10,7 +10,8 @@ class MainStore extends ReduceStore {
 
   getInitialState() {
     return Immutable.Map({
-      modalShow: false
+      modalShow: false,
+      paymentModalShow: false
     });
   }
 
@@ -26,6 +27,10 @@ class MainStore extends ReduceStore {
         return state.set("modalShow", true);
       case ActionTypes.CLOSE_BASKET_MODAL:
         return state.set("modalShow", false);
+      case ActionTypes.OPEN_PAYMENT_MODAL:
+        return state.set("paymentModalShow", true);
+      case ActionTypes.CLOSE_PAYMENT_MODAL:
+        return state.set("paymentModalShow", false);
       default:
         return state;
     }
