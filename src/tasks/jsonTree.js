@@ -3,8 +3,8 @@ let addToBasket = {
     { gt: "const.myconst", tid: "selectpizza" },
     {
       anyOrder: [
-        { gt: "const.myconst", tid: "addtopping" },
-        { gt: "const.myconst", tid: "specifyorderamount" }
+        { gt: "const.myconst", tid: "addtopping", iterative: true },
+        { gt: "const.myconst", tid: "specifyorderamount", iterative: true }
       ]
     }
   ],
@@ -27,35 +27,13 @@ let enterOrderDetails = {
   tid: "enterorderdetails"
 };
 
-let confirmOrder = {
-  sequence: [
-    { ...enterOrderDetails },
-    {
-      disabling: [
-        { gt: "const.myconst", tid: "payorder" },
-        { gt: "const.myconst", tid: "validatepayment" }
-      ]
-    }
-  ],
-  tid: "confirmorder"
-};
-
 /*  makeOrder must be the input of the sensor */
 let makeOrder = {
   sequence: [
     { ...addToBasket },
     {
-      parallel: [
-        { ...manageBasket },
-        {
-          disabling: [
-            { gt: "const.myconst", tid: "displayorderprice" },
-            { ...confirmOrder }
-          ]
-        }
-      ]
-    },
-    { gt: "const.myconst", tid: "processorder" }
+      disabling: [{ ...manageBasket }, { ...enterOrderDetails }]
+    }
   ],
   tid: "makeorder"
 };

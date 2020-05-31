@@ -12,6 +12,8 @@ mapLinks.set(ActionTypes.CHANGE_TOPPINGS, "addtopping");
 mapLinks.set(ActionTypes.CHANGE_NUMBER, "specifyorderamount");
 mapLinks.set(ActionTypes.REMOVE_ORDER_FROM_BASKET, "deletepizza");
 mapLinks.set(ActionTypes.CANCEL_ORDER, "_reset");
+mapLinks.set(ActionTypes.EDIT_PAYMENT_NAME, "entername");
+mapLinks.set(ActionTypes.EDIT_PAYMENT_ADDRESS, "enteraddress");
 
 /* The "_subroots" association has to be made if you're not going to
  *  pass the handlersEventMap to the TaskModelStore; adding this
