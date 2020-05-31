@@ -1,6 +1,6 @@
 import { ReduceStore } from "flux/utils";
 import Dispatcher from "./Dispatcher";
-import DjestitGeneric from "../tasks/djestit-pizza-node";
+import DjestitGeneric from "../tasks/djestit-webtasks-node";
 
 class TaskModelStore extends ReduceStore {
   /**
@@ -24,10 +24,17 @@ class TaskModelStore extends ReduceStore {
     return {};
   }
 
+  /**
+   * Sets the handlers for each task. If the taskHandlers map is given when
+   * the Store is created, then it'll use that to create the associations,
+   * else it'll use the tasks inside the taskMap variable and it'll print
+   * a default message of task completion
+   */
   _setHandlers(taskMap, jsonTree, taskHandlers) {
     const taskList = taskHandlers
       ? Array.from(taskHandlers.entries())
       : Array.from(taskMap.entries());
+    console.log(taskList);
     taskList.forEach(entry => {
       if (taskHandlers) {
         this._model.onComplete(
@@ -68,11 +75,15 @@ class TaskModelStore extends ReduceStore {
   reduce(state, action) {
     if (this._taskMap.has(action.type)) {
       const tasks = this._taskMap.get(action.type);
+      /* If more than one tasks need to be fired when the action is executed */
       if (tasks instanceof Array) {
+        // Fire all the tasks
         tasks.forEach(task => {
           this._sensor.fireToken(task);
         });
       } else {
+        // Tasks is actually a single task and I need to fire only that task
+        console.log("Firing  ->" + tasks);
         this._sensor.fireToken(tasks);
       }
       return state;

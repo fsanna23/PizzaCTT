@@ -1,8 +1,12 @@
 let addToBasket = {
   sequence: [
     { gt: "const.myconst", tid: "selectpizza" },
-    { gt: "const.myconst", tid: "addtopping" },
-    { gt: "const.myconst", tid: "specifyorderamount" }
+    {
+      anyOrder: [
+        { gt: "const.myconst", tid: "addtopping" },
+        { gt: "const.myconst", tid: "specifyorderamount" }
+      ]
+    }
   ],
   tid: "addtobasket"
 };
