@@ -228,11 +228,12 @@ class Djestit {
       // setting the children property
       terms instanceof Array ? (this.children = terms) : (this.children = []);
 
-      let index = 0;
+      let self = this;
+      self.index = 0;
 
       this.reset = function() {
         this.state = _DEFAULT;
-        index = 0;
+        self.index = 0;
         this.children.forEach(function(child) {
           child.reset();
         });
@@ -242,29 +243,28 @@ class Djestit {
         if (this.state === _COMPLETE || this.state === _ERROR) {
           return false;
         }
-
         if (
           this.children &&
-          this.children[index] &&
-          this.children[index].lookahead
+          this.children[self.index] &&
+          this.children[self.index].lookahead
         ) {
-          return this.children[index].lookahead(token);
+          return this.children[self.index].lookahead(token);
         }
         return false;
       };
 
       this.fire = function(token) {
-        if (this.lookahead(token) && this.children[index].fire) {
-          this.children[index].fire(token);
+        if (this.lookahead(token) && this.children[self.index].fire) {
+          this.children[self.index].fire(token);
         } else {
           this.error();
           return;
         }
-
-        switch (this.children[index].state) {
+        /* Switch finale per porre il this a completato.*/
+        switch (this.children[self.index].state) {
           case _COMPLETE:
-            index++;
-            if (index >= this.children.length) {
+            self.index++;
+            if (self.index >= this.children.length) {
               this.complete(token);
             }
             break;

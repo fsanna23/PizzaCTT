@@ -31,7 +31,7 @@ class DjestitGeneric extends Djestit {
       }
     };
 
-    this.registerGroundTerm("const.myconst", this.myConstExpression);
+    this.registerGroundTerm("webtask", this.myConstExpression);
 
     /*
       The alternative expression generator used to associate an ID to
@@ -121,6 +121,12 @@ class DjestitGeneric extends Djestit {
       /*  This function is used to reset all the terms in your json. */
       this.resetTerms = function() {
         this.root.reset();
+      };
+
+      /*  This function lets you know if the token will go or not*/
+      this.deepLookahead = function(tasks) {
+        let token = this._generateToken(tasks);
+        return this.root.lookahead(token);
       };
     };
 

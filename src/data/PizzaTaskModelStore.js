@@ -20,7 +20,7 @@ mapLinks.set(ActionTypes.EDIT_PAYMENT_ADDRESS, "enteraddress");
  *  association, you ensure that the subroots too will have a
  *  completion handler, so that you can be notified when they've
  *  been finished. */
-mapLinks.set("_subroots", ["addtobasket", "managebasket"]);
+mapLinks.set("_subroots", ["addtobasket", "managebasket", "makeorder"]);
 
 let handlersEventMap = new Map();
 handlersEventMap.set("selectpizza", function(evt) {

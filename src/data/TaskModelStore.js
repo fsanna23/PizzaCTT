@@ -83,11 +83,11 @@ class TaskModelStore extends ReduceStore {
       if (tasks instanceof Array) {
         // Fire all the tasks
         tasks.forEach(task => {
-          this._sensor.fireToken(task);
+          if (this._sensor.deepLookahead(tasks)) this._sensor.fireToken(task);
         });
       } else {
         // Tasks is actually a single task and I need to fire only that task
-        this._sensor.fireToken(tasks);
+        if (this._sensor.deepLookahead(tasks)) this._sensor.fireToken(tasks);
       }
       return state;
     } else {

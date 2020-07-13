@@ -1,10 +1,10 @@
 let addToBasket = {
   sequence: [
-    { gt: "const.myconst", tid: "selectpizza" },
+    { gt: "webtask", tid: "selectpizza" },
     {
       anyOrder: [
-        { gt: "const.myconst", tid: "addtopping", iterative: true },
-        { gt: "const.myconst", tid: "specifyorderamount", iterative: true }
+        { gt: "webtask", tid: "addtopping", iterative: true },
+        { gt: "webtask", tid: "specifyorderamount", iterative: true }
       ]
     }
   ],
@@ -13,16 +13,16 @@ let addToBasket = {
 
 let manageBasket = {
   anyOrder: [
-    { gt: "const.myconst", tid: "deletepizza", iterative: true },
-    { gt: "const.myconst", tid: "changeamount", iterative: true }
+    { gt: "webtask", tid: "deletepizza", iterative: true },
+    { gt: "webtask", tid: "changeamount", iterative: true }
   ],
   tid: "managebasket"
 };
 
 let enterOrderDetails = {
   parallel: [
-    { gt: "const.myconst", tid: "enteraddress" },
-    { gt: "const.myconst", tid: "entername" }
+    { gt: "webtask", tid: "enteraddress" },
+    { gt: "webtask", tid: "entername" }
   ],
   tid: "enterorderdetails"
 };
@@ -31,9 +31,11 @@ let enterOrderDetails = {
 let makeOrder = {
   sequence: [
     { ...addToBasket },
-    {
-      disabling: [{ ...manageBasket }, { ...enterOrderDetails }]
-    }
+    // {
+    //   disabling: [{ ...manageBasket }, { ...enterOrderDetails }]
+    // }
+    /* There's no operator for the optional task manageBasket */
+    { ...enterOrderDetails }
   ],
   tid: "makeorder"
 };
